@@ -1,0 +1,100 @@
+{
+  "title": "Open Github Event",
+  "id": "http://github.com/opengh/open-event/tree/master/event.schema.json#",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "description": "Definition of a publicly listed event.",
+  "type": "object",
+  "required": ["contact", "url", "location"],
+  "additionalProperties": false,
+  "definitions": {
+    "date": {
+      "type": "string",
+      "pattern": "^([0-9]{4})\\-((0[1-9])|(1[0-2]))\\-((0[1-9])|([1-2][0-9])|(3[0-1]))$"
+    },
+    "time": {
+      "type": "string",
+      "pattern": "^([0-2][0-9])-([0-5][0-9])$"
+    }
+  },
+  "properties": {
+    "name": {
+      "description": "Name of the event. Example: \"First Hangout\". (If not given, it will default to <user>/<repo>/#<number-of-event>.)",
+      "type": "string"
+    },
+    "location": {
+      "oneOf": [{
+        "type": "object",
+        "description": "Location of an online event.",
+        "required": ["url", "timeZone"],
+        "additionalProperties": false,
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "URL at which people will be able to meet. Example: \"http://bit.ly/1cSGrkw\".",
+            "format": "url"
+          },
+          "timeZone": {
+            "type": "string",
+            "description": "Timezone offset to be added to the specified start/end time. Example: \"+0800\". (Since online location has no timezone attached to it a timezone is required)",
+            "pattern": "^(\\+|\\-)([0-9]{4})$"
+          }
+        }
+      }, {
+        "type": "object",
+        "description":　"Location of an online event",
+        "additionalProperties": false,
+        "properties": {
+          "place": {
+            "type": "string",
+            "description": "Name or address of location. Example: \"Joyent, Sausolito California\"."
+          },
+          "directions": {
+            "type": "string",
+            "description": "Instructions on how to find the location. Example: \"Take the elevator Nr. 3 next to the south entrance.\""
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL of the location. Example: \"http://www.ritzcarlton.com/en/hotels/california/san-francisco\""
+          },
+          "lat": {
+            "type": "number",
+            "minimum": -90,
+            "maximum": 90,
+            "description": "Latitude of the position. Together with lng forms the geographic posistion of the event. Example: \"12\""
+          },
+          "lng": {
+            "type": "number",
+            "minimum": -180,
+            "maximum": 180,
+            "description": "Longitude of the position. Together with lat forms the geographic posistion of the event. Example: \"140\""
+          }
+        },
+        "required": ["place", "lat", "lng"] 
+      }]
+    },
+    "endDate": {
+      "description": "Date at which the event ends. Example: \"1999-12-31\".",
+      "$ref": "#/definitions/date"
+    },
+    "endTime": {
+      "description": "Time at which the event ends. Example: \"09-20\". Specifies together with endDate the finishing time of the event.",
+      "$ref": "#/definitions/time"
+    },
+    "contact": {
+      "type": "string",
+      "description": "Email of the person that is responsible for this event. Example: \"email@example.com\".",
+      "format": "email"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to sign-up for the event or get more information. Example: \"http://meetup.com/opengh/events/123\"."
+    },
+    "coc": {
+      "description": "URL for the Code of Conduct. Example: \"https://nodeschool.io/code_of_conduct.html\".",
+      "type": "string",
+      "format": "uri"
+    }
+  }
+}
