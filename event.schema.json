@@ -4,7 +4,11 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "description": "Definition of a publicly listed event.",
   "type": "object",
-  "required": ["contact", "url", "location"],
+  "anyOf": [{
+    "required": ["contact", "url", "location"]
+  }, {
+    "required": ["contact", "url", "online"]
+  }],
   "additionalProperties": false,
   "definitions": {
     "date": {
@@ -21,57 +25,56 @@
       "description": "Name of the event. Example: \"First Hangout\". (If not given, it will default to <user>/<repo>/#<number-of-event>.)",
       "type": "string"
     },
-    "location": {
-      "oneOf": [{
-        "type": "object",
-        "description": "Location of an online event.",
-        "required": ["url", "timeZone"],
-        "additionalProperties": false,
-        "properties": {
-          "url": {
-            "type": "string",
-            "description": "URL at which people will be able to meet. Example: \"http://bit.ly/1cSGrkw\".",
-            "format": "url"
-          },
-          "timeZone": {
-            "type": "string",
-            "description": "Timezone offset to be added to the specified start/end time. Example: \"+0800\". (Since online location has no timezone attached to it a timezone is required)",
-            "pattern": "^(\\+|\\-)([0-9]{4})$"
-          }
-        }
-      }, {
-        "type": "object",
-        "description":　"Location of an online event",
-        "additionalProperties": false,
-        "properties": {
-          "place": {
-            "type": "string",
-            "description": "Name or address of location. Example: \"Joyent, Sausolito California\"."
-          },
-          "directions": {
-            "type": "string",
-            "description": "Instructions on how to find the location. Example: \"Take the elevator Nr. 3 next to the south entrance.\""
-          },
-          "url": {
-            "type": "string",
-            "format": "uri",
-            "description": "URL of the location. Example: \"http://www.ritzcarlton.com/en/hotels/california/san-francisco\""
-          },
-          "lat": {
-            "type": "number",
-            "minimum": -90,
-            "maximum": 90,
-            "description": "Latitude of the position. Together with lng forms the geographic posistion of the event. Example: \"12\""
-          },
-          "lng": {
-            "type": "number",
-            "minimum": -180,
-            "maximum": 180,
-            "description": "Longitude of the position. Together with lat forms the geographic posistion of the event. Example: \"140\""
-          }
+    "online": {
+      "type": "object",
+      "description": "Location of an online event.",
+      "required": ["url", "timeZone"],
+      "additionalProperties": false,
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "URL at which people will be able to meet. Example: \"http://bit.ly/1cSGrkw\".",
+          "format": "url"
         },
-        "required": ["place", "lat", "lng"] 
-      }]
+        "timeZone": {
+          "type": "string",
+          "description": "Timezone offset to be added to the specified start/end time. Example: \"+0800\". (Since online location has no timezone attached to it a timezone is required)",
+          "pattern": "^(\\+|\\-)([0-9]{4})$"
+        }
+      }
+    },
+    "location": {
+      "type": "object",
+      "description":　"Location of an online event",
+      "additionalProperties": false,
+      "properties": {
+        "place": {
+          "type": "string",
+          "description": "Name or address of location. Example: \"Joyent, Sausolito California\"."
+        },
+        "directions": {
+          "type": "string",
+          "description": "Instructions on how to find the location. Example: \"Take the elevator Nr. 3 next to the south entrance.\""
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL of the location. Example: \"http://www.ritzcarlton.com/en/hotels/california/san-francisco\""
+        },
+        "lat": {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90,
+          "description": "Latitude of the position. Together with lng forms the geographic posistion of the event. Example: \"12\""
+        },
+        "lng": {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180,
+          "description": "Longitude of the position. Together with lat forms the geographic posistion of the event. Example: \"140\""
+        }
+      },
+      "required": ["place", "lat", "lng"]
     },
     "endDate": {
       "description": "Date at which the event ends. Example: \"1999-12-31\".",
