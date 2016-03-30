@@ -1,0 +1,8 @@
+{
+	"contact": "email@example.com",
+	"url": "http://some.domain",
+	"online": {
+		"url": "http://hangout.google.com",
+		"timeZone": "Asia/Tokyo"
+	}
+}

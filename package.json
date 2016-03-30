@@ -1,0 +1,24 @@
+{
+  "name": "open-event",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard && tap -- test/*.js",
+    "lint": "standard",
+    "quick": "tap -- test/*.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jsonschema": "^1.1.0",
+    "moment-timezone": "^0.5.3",
+    "timezone-js": "^0.4.13",
+    "tz-lookup": "^6.0.2"
+  },
+  "devDependencies": {
+    "standard": "^6.0.8",
+    "tap": "^5.7.0"
+  }
+}
