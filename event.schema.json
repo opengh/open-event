@@ -36,7 +36,7 @@
         },
         "timeZone": {
           "type": "string",
-          "description": "IANA Timezone in which start and end are specified. Example: 'Asia/Tokyo'. (Since online location has no timezone attached to it a timezone is required)",
+          "description": "IANA Timezone in which start and end are specified. Example: 'Asia/Tokyo'. (Since online location has no timezone attached to it a timezone is required)"
         }
       }
     },

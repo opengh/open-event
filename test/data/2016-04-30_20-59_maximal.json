@@ -1,0 +1,19 @@
+{
+	"name": "Maximal Event",
+	"contact": "email@example.com",
+	"url": "http://some.domain",
+	"online": {
+		"url": "http://hangout.google.com",
+		"timeZone": "Asia/Tokyo"
+	},
+	"location": {
+		"place": "Venice Beach",
+		"directions": "Fancy Place on the beach",
+		"lat": 34.32,
+		"lng": 134.32,
+		"url": "http://venicebeach.com"
+	},
+	"endDate": "2017-05-05",
+	"endTime": "13-10",
+	"coc": "http://opengh.github.com/coc.html"
+}

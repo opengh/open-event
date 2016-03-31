@@ -17,10 +17,6 @@ const reg = new RegExp(
 	'_([^.]*)).json$'
 )
 
-function toISOTime(year, month, date, hour, minute, timeZone) {
-	console.log(arguments)
-}
-
 module.exports = function (file, callback) {
 	const parts = reg.exec(path.basename(file))	
 	if (!parts) {
@@ -35,15 +31,34 @@ module.exports = function (file, callback) {
 		} catch(e) {
 			return callback(e)
 		} 
-		console.log(v.validate(data, schema))
-		var timeZone = data.online ? data.online.timeZone : tzLookup(data.location.lat, data.location.lng)
+		let validation = v.validate(data, schema)
+		if (validation.errors.length > 0) {
+			let e = new Error('schema-validation-error')
+			e.errors = validation.errors
+			return callback(e)
+		}
+		let timeZone = data.online ? data.online.timeZone : tzLookup(data.location.lat, data.location.lng)
+		let startDate = parts[2]
+		let startTime = parts[11] + ':' + parts[12]
+		let start = moment.tz(startDate + ' ' + startTime + ':00', timeZone)
 		const result = {
 			contact: data.contact,
 			url: data.url,
-			start: moment.tz(parts[2] + ' ' + parts[11] + ':' + parts[12] + ':00', timeZone).toString(),
+			start: start.toString(),
 			slug: parts[1],
 			name: data.name || parts[13],
-			urlSafe: parts[13]
+			urlSafe: parts[13],
+		}
+		if (data.coc) {
+			result.coc = data.coc
+		}
+		if (data.endTime) {
+			let endTime = data.endTime.replace('-', ':')
+			let end = moment.tz((data.endDate || startDate) + ' ' + (endTime ? endTime : '00:00') + ':00', timeZone)
+			if (end < start) {
+				return callback(new Error('end-before-start'))
+			}
+			result.end = end.toString()
 		}
 		if (data.online) {
 			result.online = {
