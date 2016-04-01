@@ -4,7 +4,7 @@
   "description": "`open-event` specifies a way to store information on events/meetups/meetings as JSON files.",
   "main": "index.js",
   "scripts": {
-    "test": "tap --reporter=html --check-coverage -- test/*.js",
+    "test": "standard && tap -- test/*.js",
     "lint": "standard",
     "quick": "tap -- test/*.js",
     "doc": "node scripts/doc.js"
