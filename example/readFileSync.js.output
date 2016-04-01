@@ -1,0 +1,19 @@
+module.exports = {
+  coc: "http://opengh.github.com/coc.html",
+  contact: "email@example.com",
+  end: "Fri May 05 2017 13:10:00 GMT+0900",
+  location: {
+    lat: 34.32,
+    lng: 134.32,
+    place: "Venice Beach"
+  },
+  name: "Maximal Event",
+  online: {
+    url: "http://hangout.google.com"
+  },
+  open: "Sat Apr 30 2016 20:30:00 GMT+0900",
+  slug: "2016-04-30_20-59_maximal",
+  start: "Sat Apr 30 2016 20:59:00 GMT+0900",
+  url: "http://some.domain",
+  urlSafe: "maximal"
+}

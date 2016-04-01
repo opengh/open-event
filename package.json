@@ -1,24 +1,43 @@
 {
   "name": "open-event",
   "version": "1.0.0",
-  "description": "",
+  "description": "`open-event` specifies a way to store information on events/meetups/meetings as JSON files.",
   "main": "index.js",
   "scripts": {
-    "test": "standard && tap -- test/*.js",
+    "test": "tap --reporter=html --check-coverage -- test/*.js",
     "lint": "standard",
-    "quick": "tap -- test/*.js"
+    "quick": "tap -- test/*.js",
+    "doc": "node scripts/doc.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "event",
+    "open",
+    "specification",
+    "spec",
+    "jsonschema"
+  ],
+  "author": "Martin Heidegger <martin.heidegger@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "jsonschema": "^1.1.0",
     "moment-timezone": "^0.5.3",
-    "timezone-js": "^0.4.13",
     "tz-lookup": "^6.0.2"
   },
   "devDependencies": {
+    "markdown-replace-section": "^0.4.0",
     "standard": "^6.0.8",
     "tap": "^5.7.0"
-  }
+  },
+  "directories": {
+    "example": "example",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/opengh/open-event.git"
+  },
+  "bugs": {
+    "url": "https://github.com/opengh/open-event/issues"
+  },
+  "homepage": "https://github.com/opengh/open-event#readme"
 }
