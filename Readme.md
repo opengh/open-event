@@ -3,13 +3,11 @@
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 # Open Event
-
 `open-event` specifies a way to store information on events/meetups/meetings 
 as JSON files. It also contains a JavaScript library to process and validate
 those JSON files.
 
 ## Specification
-
 The specification consists of three parts
 
 1. A [JSON Scheme](http://json-schema.org/) that specified the structure of a
@@ -45,9 +43,7 @@ Only if a file adheres to all three aspects it is considered a event.
  `*`: Required.
  `**`: Conditionally Required.
 
-
 ## File-name specification
-
 The file name **must start** with a start time specification in the format:
 `YYYY-MM-DD_HH-MM`. It then **must** have a `_` followed by a freely definable
 name and **has to** have the file ending `.json`.
@@ -58,12 +54,10 @@ _Note: The time specifies the moment at which the events start. If the venue
 is available before use `openTime`_
 
 ## Combinatory specification
-
 If given, the event's end time **has to** be **after** the start time.
 If given, the event's open time **has to** be **before** the start time. 
 
 ## JavaScript Usage
-
 Additionally to the specification this project also contains a Node.js
 validator. It can be installed with `$ npm install open-event`.
 
@@ -74,7 +68,6 @@ var openEvent = require('open-event')
 For more information on the api, look into the [examples folder](https://github.com/opengh/open-event/tree/master/example).
 
 ## Detailed Rationale
-
 This specification considers several priorities.
 
 - It provides only one way to write down information in order to ease 
@@ -84,7 +77,6 @@ implementation and usage of the file format.
 - It supports online or offline events as well as online and offline events.
 
 ### Why is a contact-email required?
-
 Through experience of running events it has become apparant that the 
 legitimization as organizer of an event is important for various reasons.
 Email addresses are chosen because:
@@ -96,7 +88,6 @@ received by someone
 - ... it is easy and common for people to setup one email address to reach multiple persons (if the organizer is not alone)
 
 ### Why require latitude and longitude for offline events?
-
 Validating and writing addresses properly is a very difficult task that would 
 make this file format depending on an address-lookup service to work. With a
 latitude and longitude this data is easy to put on a map and allows together
@@ -105,11 +96,9 @@ location also supports a timezone lookup which is important to make sure that
 the time entered is placed to the right place.
 
 ### Why the start time in the file path?
-
 By having the start time in the file path multiple events get automatically correctly sorted by age.
 
 ### Why is the end time split in two different properties?
-
 We have considered to specify the end in a single property that contains both
 the end date and end time with the date being optional, like:
 `end: "(YYYY-MM-DD_)HH-MM"`. This might reduce the amount of text to type but 
@@ -118,7 +107,6 @@ optional date would be to __modify__ the time. _In short_: we chose the more
 verbose way to write which humans make less errors to write.
 
 ### Why the requirement on the name in the path?
-
 Experience shows that it is important to be able to address an event properly
 which means that having a name is required. A name in the file path allows us
 to see which event it is by just glimpsing over the folder which is important 
@@ -126,11 +114,19 @@ and good practice. The name property in JSON is optionally available in case
 you want to improve the text formatting.
 
 ### Why `HH-MM` for the time definitions?
+The usual time notation `HH:MM` is not possible in the file path. But, if
+chosen, the start and end time would have a different notation (`-` works
+better in file paths. In order to make sure that users have to remember only
+one notation we stayed with `HH-MM`.
 
-The usual time notation `HH:MM` is not possible in the file path. As such the start and end specification would 
+### Why are additional properties not allowed?
+Additional properties and optional properties combined are problematic because
+a user might have a typo in an optional property resulting in an event that
+would not be rendered as intended.
+
+_Note: the output specification allows additional properties._
 
 ### Why JSON?
-
 Other file formats such as `YAML` are easier to manually edit but they are
 harder to process in various languages. JSON files are immediately usable
 in web projects.
