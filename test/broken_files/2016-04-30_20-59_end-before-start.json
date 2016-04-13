@@ -1,0 +1,10 @@
+{
+	"contact": "email@example.com",
+	"url": "http://some.domain",
+	"location": {
+		"place": "Venice Beach",
+		"lat": 34.32,
+		"lng": 134.32
+	},
+	"endTime": "20-00"
+}

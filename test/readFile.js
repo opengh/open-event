@@ -1,14 +1,15 @@
 'use strict'
 
 const test = require('tap').test
-const eventFs = require('../readFile')
+const readFile = require('../readFile')
 const path = require('path')
 const examplePath = path.join(__dirname, '..', 'example', 'files')
+const brokenPath = path.join(__dirname, 'broken_files')
 
 test('valid minimal online event', function (t) {
   const name = 'minimal-online'
   const slug = `2016-04-30_20-59_${name}`
-  eventFs(path.join(examplePath, `${slug}.json`), function (err, event) {
+  readFile(path.join(examplePath, `${slug}.json`), function (err, event) {
     t.equal(err, null)
     t.deepEqual(event, {
       start: 'Sat Apr 30 2016 20:59:00 GMT+0900',
@@ -28,7 +29,7 @@ test('valid minimal online event', function (t) {
 test('valid minimal offine event', function (t) {
   const name = 'minimal-offline'
   const slug = `2016-03-30_20-30_${name}`
-  eventFs(path.join(examplePath, `${slug}.json`), function (err, event) {
+  readFile(path.join(examplePath, `${slug}.json`), function (err, event) {
     t.equal(err, null)
     t.deepEqual(event, {
       start: 'Wed Mar 30 2016 20:30:00 GMT+0900',
@@ -50,7 +51,7 @@ test('valid minimal offine event', function (t) {
 test('valid maximal event', function (t) {
   const name = 'maximal'
   const slug = `2016-04-30_20-59_${name}`
-  eventFs(path.join(examplePath, `${slug}.json`), function (err, event) {
+  readFile(path.join(examplePath, `${slug}.json`), function (err, event) {
     t.equal(err, null)
     t.deepEqual(event, {
       start: 'Sat Apr 30 2016 20:59:00 GMT+0900',
@@ -74,3 +75,45 @@ test('valid maximal event', function (t) {
     t.end()
   })
 })
+
+test('open after start', function (t) {
+  const name = 'open-after-start'
+  const slug = `2016-04-30_20-59_${name}`
+  readFile(path.join(brokenPath, `${slug}.json`), function (err, event) {
+    t.equal(err.message, 'open-not-before-start')
+    t.end()
+  })
+})
+test('end before start', function (t) {
+  const name = 'end-before-start'
+  const slug = `2016-04-30_20-59_${name}`
+  readFile(path.join(brokenPath, `${slug}.json`), function (err, event) {
+    t.equal(err.message, 'end-before-start')
+    t.end()
+  })
+})
+test('end before start', function (t) {
+  readFile('incorrect path', function (err, event) {
+    t.equal(err.message, 'invalid-filename')
+    t.end()
+  })
+})
+test('not-existing-file', function (t) {
+  readFile('2016-04-04_20-20_missing-file.json', function (err, event) {
+    t.equal(err.message, 'file-read-error')
+    t.end()
+  })
+})
+test('unknown property', function (t) {
+  readFile(path.join(brokenPath, '2016-04-04_20-29_unexpected-property.json'), function (err, event) {
+    t.equal(err.message, 'schema-validation-error')
+    t.end()
+  })
+})
+test('broken json', function (t) {
+  readFile(path.join(brokenPath, '2016-04-04_20-29_broken-json.json'), function (err, event) {
+    t.equal(err.message, 'json-invalid-error')
+    t.end()
+  })
+})
+
